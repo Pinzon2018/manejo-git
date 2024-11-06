@@ -18,3 +18,24 @@ class VistaVenta(Resource):
         db.session.add(nueva_venta)
         db.session.commit()
         return venta_schema.dump(nueva_venta)
+    
+#Vista para editar y eliminar Ventas
+
+class VistaVentaed(Resource):
+    def put(self, id):
+        venta = Venta.query.get(id)
+        
+        venta.fecha_venta = request.json.get('fecha_venta', venta.fecha_venta)
+        venta.total_venta = request.json.get('total_venta', venta.total_venta)
+        venta.forma_pago = request.json.get('forma_pago', venta.forma_pago)
+        venta.usuario = request.json.get('usuario', venta.usuario)
+
+        db.session.commit()
+        return venta_schema.dump(venta)
+    
+    def delete(self, id):
+        venta = Venta.query.get(id)
+
+        db.session.delete(venta)
+        db.session.commit()
+        return 'Venta eliminada'   
