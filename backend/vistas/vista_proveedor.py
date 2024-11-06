@@ -17,3 +17,27 @@ class VistaProveedor(Resource):
         db.session.add(nuevo_proveedor)
         db.session.commit()
         return proveedor_schema.dump(nuevo_proveedor)
+    
+#Vista para editar y eliminar Proveedores
+    
+class VistaProveedored(Resource):
+    def put(self, id):
+        proveedor = Proveedor.query.get(id)
+        if not proveedor:
+            return 'Proveedor no encontrado', 404
+
+        proveedor.nombre_proveedor = request.json.get('nombre_proveedor', proveedor.nombre_proveedor)
+        proveedor.telefono_proveedor = request.json.get('telefono_proveedor', proveedor.telefono_proveedor)
+        proveedor.direccion_proveedor = request.json.get('direccion_proveedor', proveedor.direccion_proveedor)
+
+        db.session.commit()
+        return proveedor_schema.dump(proveedor), 200
+    
+    def delete(self, id):
+        proveedor = Proveedor.query.get(id)
+        if not proveedor:
+            return 'Proveedor no encontrado', 404
+        
+        db.session.delete(proveedor)
+        db.session.commit()
+        return 'Proveedor Eliminado', 204
