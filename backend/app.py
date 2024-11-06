@@ -14,3 +14,25 @@ app_context = app.app_context()
 app_context.push()
 db.init_app(app)
 db.create_all()
+
+api = Api(app)
+
+#Ruta para ver e insertar proveedores
+api.add_resource(VistaProveedor, '/proveedor')
+#Ruta para editar y eliminar proveedores
+api.add_resource(VistaProveedored, '/proveedor/<int:id>')
+
+api.add_resource(VistaCategoria, '/categorias')
+api.add_resource(VistaCategoriaed, '/categorias/<int:id>')
+
+api.add_resource(VistaSubcategoria, '/subcategorias')
+api.add_resource(VistaSubcategoriaed, '/subcategorias/<int:id>')
+
+api.add_resource(VistaProducto, '/productos')
+api.add_resource(VistaProductoed, '/productos/<int:id>')
+
+api.add_resource(VistaUsuario, '/usuarios')
+api.add_resource(VistaUsuarioed, '/usuarios/<int:id>')
+
+api.add_resource(VistaVenta, '/ventas')
+api.add_resource(VistaVentaed, '/ventas/<int:id>')
