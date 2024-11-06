@@ -17,3 +17,27 @@ class VistaSubcategoria(Resource):
         db.session.add(nueva_subcategoria)
         db.session.commit()
         return subcategoria_schema.dump(nueva_subcategoria)
+    
+#Vista para editar y eliminar Subcategorias
+
+class VistaSubcategoriaed(Resource):
+    def put(self, id):
+        subcategoria = Subcategoria.query.get(id)
+        if not subcategoria:
+            return 'Subcategoria no encontrada'
+        
+        subcategoria.nombre_subca = request.json.get('nombre_subca', subcategoria.nombre_subca)
+        subcategoria.descripcion_subca = request.json.get('descripcion_subca', subcategoria.descripcion_subca)
+        subcategoria.categoria = request.json.get('categoria', subcategoria.categoria)
+
+        db.session.commit()
+        return subcategoria_schema.dump(subcategoria), 200
+
+    def delete(self, id):
+        subcategoria = Subcategoria.query.get(id)
+        if not subcategoria:
+            return 'Subcategoria no encontrada'
+        
+        db.session.delete(subcategoria)
+        db.session.commit()
+        return 'Subcategoria Eliminada'
