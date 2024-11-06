@@ -21,3 +21,28 @@ class VistaUsuario(Resource):
         db.session.add(nuevo_usuario)
         db.session.commit()
         return usuario_schema.dump(nuevo_usuario)
+    
+#Vista para editar y eliminar usuarios
+
+class VistaUsuarioed(Resource):
+    def put(self, id):
+        usuario = Usuario.query.get(id)
+        if not usuario:
+            return 'Usuario no encontrado', 404
+        
+        usuario.nombre_usu = request.json.get('nombre_usu', usuario.nombre_usu)
+        usuario.contrasena_usu = request.json.get('contrasena_usu', usuario.contrasena_usu)
+        usuario.email_usu = request.json.get('email_usu', usuario.email_usu)
+        usuario.telefono_usu = request.json.get('telefono_usu', usuario.telefono_usu)
+        usuario.fecha_inicio_contrato = request.json.get('fecha_inicio_contrato', usuario.fecha_inicio_contrato)
+        usuario.cedula_usu = request.json.get('cedula_usu', usuario.cedula_usu)
+        usuario.rol = request.json.get('rol', usuario.rol)
+
+    def delete(self, id):
+        usuario = Usuario.query.get(id)
+        if not usuario:
+            return 'Usuario no encontrado', 404
+        
+        db.session.delete(usuario)
+        db.session.commit()
+        return 'Usuario eliminado'
