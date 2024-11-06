@@ -82,3 +82,65 @@ class Detalle_Venta(db.Model):
     venta = db.Column(db.Integer, db.ForeignKey("venta.id"))
     factura = db.Column(db.Integer, db.ForeignKey("factura.id"))
     producto = db.Column(db.Integer, db.ForeignKey("producto.id"))
+
+#Schemas para la base de datos
+
+class ProveedorSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Proveedor
+        include_relationships = True
+        load_instance = True
+
+class CategoriaSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Categoria
+        include_relationships = True
+        load_instance = True
+
+class SubcategoriaSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Subcategoria
+        include_relationships = True
+        load_instance = True
+
+class ProductoSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Producto
+        include_relationships = True
+        load_instance = True
+
+class FechaRegistroSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Fecha_Registro_Prod
+        include_relationships = True
+        load_instance = True
+
+class RolSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Rol
+        include_relationships = True
+        load_instance = True
+
+class UsuarioSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Usuario
+        include_relationships = True
+        load_instance = True
+
+class FacturaSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Factura
+        include_relationships = True
+        load_instance = True
+    
+class VentaSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Venta
+        include_relatioships = True
+        load_instance = True
+
+class DetalleVentaSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Detalle_Venta
+        include_relationships = True
+        load_instance = True
