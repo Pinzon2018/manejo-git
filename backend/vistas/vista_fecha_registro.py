@@ -17,3 +17,21 @@ class VistaFechaRegistro(Resource):
         db.session.commit()
         return fecha_registro_schema.dump(nueva_fecha_registro)
 
+class VistaFechaRegistroed(Resource):
+    def get(self, id):
+        return fecha_registro_schema.dump(Fecha_Registro_Prod.query.get_or_404(id))
+
+    def put(self, id):
+        fecha_registro_p = Fecha_Registro_Prod.query.get_or_404(id)
+        fecha_registro_p.fecha_registro = request.json.get("fecha_registro", fecha_registro_p.fecha_registro)
+        fecha_registro_p.cantidad = request.json.get("cantidad", fecha_registro_p.cantidad)
+        fecha_registro_p.proveedor = request.json.get("proveedor", fecha_registro_p.proveedor)
+        fecha_registro_p.producto = request.json.get("producto", fecha_registro_p.producto)
+        db.session.commit()
+        return fecha_registro_schema.dump(fecha_registro_p)
+    
+    def delete(self, id):
+        fecha_registro_p = Fecha_Registro_Prod.query.get_or_404(id)
+        db.session.delete(fecha_registro_p)
+        db.session.commit()
+        return '', 204
