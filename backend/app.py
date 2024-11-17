@@ -8,6 +8,7 @@ from .vistas.vista_subcategoria import VistaSubcategoria, VistaSubcategoriaed
 from .vistas.vista_productos import VistaProducto, VistaProductoed
 from .vistas.vista_usuarios import VistaUsuario, VistaUsuarioed, VistaLogIn
 from .vistas.vista_venta import VistaVenta, VistaVentaed
+from flask_jwt_extended import JWTManager
 
 app = create_app('default')
 app_context = app.app_context()
@@ -37,3 +38,5 @@ api.add_resource(VistaLogIn, '/login')
 
 api.add_resource(VistaVenta, '/ventas')
 api.add_resource(VistaVentaed, '/ventas/<int:id>')
+
+jwt = JWTManager(app)
