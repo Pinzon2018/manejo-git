@@ -2,12 +2,15 @@ from flask import request
 from datetime import datetime
 from flask_restful import Resource
 from ..modelos import db, Usuario, UsuarioSchema
+from sqlalchemy.exc import IntegrityError
+from flask_jwt_extended import jwt_required, create_access_token
 
 usuario_schema = UsuarioSchema()
 
 #Vista para ver y agregar usuarios
 
 class VistaUsuario(Resource):
+    @jwt_required()
     def get(self):
         return [usuario_schema.dump(Usuario) for Usuario in Usuario.query.all()]
 
@@ -23,7 +26,13 @@ class VistaUsuario(Resource):
                                 rol = request.json['rol'])
         db.session.add(nuevo_usuario)
         db.session.commit()
-        return usuario_schema.dump(nuevo_usuario)
+
+        token_de_acceso = create_access_token(identity=nuevo_usuario.nombre_usu)
+
+        return  {'Mensaje': 'Usuario creado exitosamente',
+                 'Usuario': usuario_schema.dump(nuevo_usuario),
+                 'Token de acceso': token_de_acceso
+                 }
     
 #Vista para editar y eliminar usuarios
 
@@ -51,3 +60,14 @@ class VistaUsuarioed(Resource):
         db.session.delete(usuario)
         db.session.commit()
         return 'Usuario eliminado'
+    
+class VistaLogIn(Resource):
+    def post(self):
+        nombre = request.json["nombre_usu"]
+        contrasena = request.json["contrasena_usu"]
+        usuario = Usuario.query.filter_by(nombre_usu=nombre, contrasena_usu=contrasena).all()
+        if usuario:
+            return {'Mensaje': 'Inicio de sesión exitoso'}
+        else:
+            return {'Mensaje': 'Nombre de usuario o contraseña incorrectos'}
+
