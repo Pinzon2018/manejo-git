@@ -6,7 +6,7 @@ from .vistas.vista_proveedor import VistaProveedor, VistaProveedored
 from .vistas.vista_categoria import VistaCategoria, VistaCategoriaed
 from .vistas.vista_subcategoria import VistaSubcategoria, VistaSubcategoriaed
 from .vistas.vista_productos import VistaProducto, VistaProductoed
-from .vistas.vista_usuarios import VistaUsuario, VistaUsuarioed
+from .vistas.vista_usuarios import VistaUsuario, VistaUsuarioed, VistaLogIn
 from .vistas.vista_venta import VistaVenta, VistaVentaed
 
 app = create_app('default')
@@ -33,6 +33,7 @@ api.add_resource(VistaProductoed, '/productos/<int:id>')
 
 api.add_resource(VistaUsuario, '/usuarios')
 api.add_resource(VistaUsuarioed, '/usuarios/<int:id>')
+api.add_resource(VistaLogIn, '/login')
 
 api.add_resource(VistaVenta, '/ventas')
 api.add_resource(VistaVentaed, '/ventas/<int:id>')
