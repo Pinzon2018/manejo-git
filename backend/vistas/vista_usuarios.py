@@ -17,13 +17,13 @@ class VistaUsuario(Resource):
     def post(self):
         fecha = request.json['fecha_inicio_contrato']
         fecha_inicio_contrato = datetime.strptime(fecha, "%Y-%m-%d").date()
-        nuevo_usuario = Usuario(nombre_usu = request.json ['nombre_usu'],
-                                contrasena_usu = request.json['contrasena_usu'],    
+        nuevo_usuario = Usuario(nombre_usu = request.json ['nombre_usu'],   
                                 email_usu = request.json['email_usu'],    
                                 telefono_usu = request.json['telefono_usu'],
                                 fecha_inicio_contrato = fecha_inicio_contrato,
                                 cedula_usu = request.json['cedula_usu'],
                                 rol = request.json['rol'])
+        nuevo_usuario.contrasena = request.json['contrasena_usu'], 
         db.session.add(nuevo_usuario)
         db.session.commit()
 
@@ -65,8 +65,8 @@ class VistaLogIn(Resource):
     def post(self):
         nombre = request.json["nombre_usu"]
         contrasena = request.json["contrasena_usu"]
-        usuario = Usuario.query.filter_by(nombre_usu=nombre, contrasena_usu=contrasena).all()
-        if usuario:
+        usuario = Usuario.query.filter_by(nombre_usu=nombre).first()
+        if usuario and usuario.verificar_contrasena(contrasena):
             return {'Mensaje': 'Inicio de sesión exitoso'}
         else:
             return {'Mensaje': 'Nombre de usuario o contraseña incorrectos'}
