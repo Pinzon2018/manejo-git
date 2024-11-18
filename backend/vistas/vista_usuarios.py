@@ -23,7 +23,7 @@ class VistaUsuario(Resource):
                                 fecha_inicio_contrato = fecha_inicio_contrato,
                                 cedula_usu = request.json['cedula_usu'],
                                 rol = request.json['rol'])
-        nuevo_usuario.contrasena = request.json['contrasena_usu'], 
+        nuevo_usuario.contrasena = request.json['contrasena_usu'] 
         db.session.add(nuevo_usuario)
         db.session.commit()
 
